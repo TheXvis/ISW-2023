@@ -7,7 +7,8 @@ const userSchema = mongoose.Schema({
     telefono: {type: String, required: true},
     sueldo: {type: String, required: true},
     zona: {type: String, required: true},
-    role: {type: String, default: 'user', required: true}
+    role: {type: String, default: 'user', required: true},
+    asAsignado:{id: String, nombre: String}
   })
 const UserModel = mongoose.model('User', userSchema);
 

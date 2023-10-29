@@ -1,10 +1,12 @@
 const UserModel = require('../models/user');
+const AsModel = require('../models/as');
 const authMiddleware = require('../auth');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const app = express();
+const config = require('../config');
 
-app.post('/create-user', async (req, res) => {
+app.post('/create-user', authMiddleware, async (req, res) => {
     const userData = req.body;
   
     try {
@@ -23,7 +25,8 @@ app.post('/create-user', async (req, res) => {
       const user = await UserModel.findOne({ rut, password });
   
       if (user) {
-        res.json({ message: 'Inicio de sesión exitoso como usuario' });
+        const token = jwt.sign({userId: user._id, role: 'user'}, config.secretKey);
+        res.json({token});
       } else {
         res.status(401).json({ message: 'Credenciales incorrectas' });
       }
@@ -44,5 +47,29 @@ app.post('/create-user', async (req, res) => {
       res.status(500).json({ message: 'Error al eliminar el usuario', error: error.message });
     }
   });
+
+  app.post('/solicitar-asistencia', authMiddleware, async (req, res) => {
+    if (req.user.role !== 'user') {
+        return res.status(403).json({ message: 'No tienes permiso para realizar esta acción' });
+    }
+
+    const userId = req.user.userId;
+    const { zona } = req.body;
+
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    const asistenteSocial = await AsModel.findOne({ zona });
+
+    if (!asistenteSocial) {
+        return res.status(404).json({ message: 'No hay asistentes sociales disponibles en tu zona' });
+    }
+
+    res.json({ message: 'Estos son los asistentes sociales disponibles en tu zona:', asistenteSocial });
+});
+
 
   module.exports = app;
