@@ -3,6 +3,7 @@ const authMiddleware = require('../auth');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const app = express();
+const config = require('../config');
 
 app.post('/create-admin', async (req, res) => {
     const adminData = req.body;
@@ -17,11 +18,11 @@ app.post('/create-admin', async (req, res) => {
 
   app.post('/login-admin', async (req, res) => {
     const { rut, password } = req.body;
-  
+
     try {
       const admin = await AdminModel.findOne({ rut, password });
       if (admin) {
-        const token = jwt.sign({userId: admin._id, role: 'admin'}, 'secreto');
+        const token = jwt.sign({userId: admin._id, role: 'admin'}, config.secretKey);
         res.json({token});
       } else {
         res.status(401).json({ message: 'Credenciales incorrectas' });
