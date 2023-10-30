@@ -19,11 +19,14 @@ mongoose.connect('mongodb+srv://AndresISW:sexo123@iswbdd.zytwiz1.mongodb.net/?re
 const UserModel = require('./models/user');
 const AsModel = require('./models/as');
 const AdminModel = require('./models/admin');
+const FichaSocialModel = require('./models/fichaSocial');
 
 const AdminRoutes = require('./routes/adminRoutes');
 const UserRoutes = require('./routes/userRoutes');
 const AsRoutes = require('./routes/asRoutes');
+const FichaRoutes = require('./routes/fichaRoutes');
 
+app.use('/ficha', FichaRoutes);
 app.use('/admin', AdminRoutes);
 app.use('/user', UserRoutes);
 app.use('/as', AsRoutes);
@@ -54,6 +57,16 @@ app.get('/admin-users', async (req, res) => {
     } catch (error) {
       res.status(500).json({ message: 'Error al obtener administradores', error: error.message });
     }
+});
+
+// Ruta para obtener una lista de todas las fichas sociales
+app.get('/fichas', async (req, res) => {
+  try {
+    const fichasSociales = await FichaSocialModel.find();
+    res.json(fichasSociales);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener la lista de fichas sociales', error: error.message });
+  }
 });
 
 

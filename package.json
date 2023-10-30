@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "supervisor app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Charly",
@@ -14,6 +15,7 @@
     "express": "^4.18.2",
     "fullcalendar": "^6.1.9",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^7.6.3"
+    "mongoose": "^7.6.3",
+    "supervisor": "^0.12.0"
   }
 }
