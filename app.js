@@ -6,7 +6,12 @@ const auth = require('./auth');
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb+srv://CharlyISW:proyectoisw@iswbdd.zytwiz1.mongodb.net/?retryWrites=true&w=majority', {
+/*mongoose.connect('mongodb+srv://CharlyISW:proyectoisw@iswbdd.zytwiz1.mongodb.net/?retryWrites=true&w=majority', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});*/
+
+mongoose.connect('mongodb+srv://AndresISW:sexo123@iswbdd.zytwiz1.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -55,3 +60,7 @@ app.get('/admin-users', async (req, res) => {
 app.listen(3000, () => {
     console.log('Servidor en funcionamiento en el puerto 3000');
 });
+
+const visitationRequestRoutes = require('./routes/visitationRequestRoutes');
+
+app.use('/visitation-requests', visitationRequestRoutes);
