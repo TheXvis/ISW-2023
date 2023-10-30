@@ -11,6 +11,9 @@ const fichaSocialSchema = new mongoose.Schema({
       nombre: String,
       edad: Number,
       parentesco: String,
+      menor18: Boolean,
+      mayor60: Boolean,
+      discapacidad: Boolean,
     }
   ],
   // Ingreso mensual del hogar

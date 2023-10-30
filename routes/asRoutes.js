@@ -76,7 +76,7 @@ app.post('/as-to-user', authMiddleware, async(req, res) =>{
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    if(asistenteSocial.zona !== user.zona){
+    if(asistenteSocial.comuna !== user.comuna){
       return res.status(400).json({ message: 'El asistente social no está en la misma zona' });
     }
     
@@ -91,5 +91,27 @@ app.post('/as-to-user', authMiddleware, async(req, res) =>{
     res.status(500).json({message: 'Error en la asignacion', error: error.message});
   }
 });
+
+app.put('/update-as/:_id', authMiddleware, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ message: 'No tienes permiso para realizar esta acción' });
+  }
+
+  const _id = req.params._id;
+  const asistenteSocialData = req.body;
+
+  try {
+    const asistenteSocial = await AsModel.findOneAndUpdate({ _id }, asistenteSocialData, { new: true });
+
+    if (!asistenteSocial) {
+      return res.status(404).json({ message: 'Asistente social no encontrado' });
+    }
+
+    res.json({ message: 'Asistente social actualizado exitosamente', asistenteSocial });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar el asistente social', error: error.message });
+  }
+});
+
 
 module.exports = app;

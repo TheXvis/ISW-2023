@@ -6,7 +6,9 @@ const asSchema = mongoose.Schema({
     password: {type: String, required: true},
     telefono: {type: String, required: true},
     correo: {type: String, required: true},
-    zona: {type: String, required: true},
+    direccion: {type: String, required: true},
+    comuna: {type: String, required: true},
+    region: {type: String, required: true},
     role: {type: String, default: 'asistente', required: true}
   })
 

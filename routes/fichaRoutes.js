@@ -20,6 +20,13 @@ app.post('/crearficha', authMiddleware, async (req, res) => {
     // Asocia la ficha social al asistente social que la está creando
     fichaSocialData.usuarioId = req.user.userId;
 
+    // Autocompletar los campos de dirección, comuna y región con los datos del usuario
+    const usuario = await UserModel.findById(req.user.userId);
+    if (usuario) {
+      fichaSocialData.direccion = usuario.direccion;
+      fichaSocialData.comuna = usuario.comuna;
+      fichaSocialData.region = usuario.region;
+    }
     // Crea una nueva ficha social utilizando el modelo y guarda en la base de datos
     const fichaSocial = new FichaSocialModel(fichaSocialData);
     await fichaSocial.save();
@@ -59,6 +66,23 @@ app.put('/actualizarficha/:id', authMiddleware, async (req, res) => {
   
       const fichaSocialId = req.params.id;
       const fichaSocialData = req.body;
+  
+
+      // Obtén el usuario actual
+      const usuario = await UserModel.findById(req.user.userId);
+  
+      if (!usuario) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+  
+      // Verifica si los campos de dirección, comuna y región en la ficha social coinciden con los datos del usuario
+      if (
+        fichaSocialData.direccion !== usuario.direccion ||
+        fichaSocialData.comuna !== usuario.comuna ||
+        fichaSocialData.region !== usuario.region
+      ) {
+        return res.status(400).json({ message: 'No puedes cambiar los datos de dirección, comuna o región en la ficha social si no coinciden con los datos del usuario' });
+      }
   
       // Implementa la lógica para actualizar la ficha social utilizando el modelo y el ID
       const fichaSocialActualizada = await FichaSocialModel.findByIdAndUpdate(fichaSocialId, fichaSocialData, { new: true });

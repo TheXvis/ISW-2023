@@ -45,4 +45,22 @@ app.post('/create-admin', async (req, res) => {
     }
   });
 
+
+  app.put('/update-admin/:_id', async (req, res) => {
+    const _id = req.params._id;
+    const adminData = req.body;
+  
+    try {
+      const admin = await AdminModel.findOneAndUpdate({ _id }, adminData, { new: true });
+  
+      if (!admin) {
+        return res.status(404).json({ message: 'Administrador no encontrado' });
+      }
+  
+      res.json({ message: 'Administrador actualizado exitosamente', admin });
+    } catch (error) {
+      res.status(500).json({ message: 'Error al actualizar el administrador', error: error.message });
+    }
+  });
+  
   module.exports = app;
