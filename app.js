@@ -68,3 +68,7 @@ app.get('/fichas', async (req, res) => {
 app.listen(3000, () => {
     console.log('Servidor en funcionamiento en el puerto 3000');
 });
+
+const visitationRequestRoutes = require('./routes/visitationRequestRoutes');
+
+app.use('/visitation-requests', visitationRequestRoutes);

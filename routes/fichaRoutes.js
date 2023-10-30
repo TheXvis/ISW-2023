@@ -27,7 +27,6 @@ app.post('/crearficha', authMiddleware, async (req, res) => {
       fichaSocialData.comuna = usuario.comuna;
       fichaSocialData.region = usuario.region;
     }
-
     // Crea una nueva ficha social utilizando el modelo y guarda en la base de datos
     const fichaSocial = new FichaSocialModel(fichaSocialData);
     await fichaSocial.save();
@@ -37,7 +36,6 @@ app.post('/crearficha', authMiddleware, async (req, res) => {
     res.status(400).json({ message: 'No se pudo crear la ficha social', error: error.message });
   }
 });
-
 
 // Ruta para obtener una ficha social por su ID
 app.get('/:id', authMiddleware, async (req, res) => {
@@ -69,6 +67,7 @@ app.put('/actualizarficha/:id', authMiddleware, async (req, res) => {
       const fichaSocialId = req.params.id;
       const fichaSocialData = req.body;
   
+
       // Obtén el usuario actual
       const usuario = await UserModel.findById(req.user.userId);
   
@@ -97,7 +96,6 @@ app.put('/actualizarficha/:id', authMiddleware, async (req, res) => {
       res.status(500).json({ message: 'Error al actualizar la ficha social', error: error.message });
     }
   });
-  
   
   // Ruta para eliminar una ficha social por su ID
   app.delete('/eliminarficha/:id', authMiddleware, async (req, res) => {
