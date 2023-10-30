@@ -54,7 +54,7 @@ app.post('/create-user', authMiddleware, async (req, res) => {
     }
 
     const userId = req.user.userId;
-    const { zona } = req.body;
+    const { comuna } = req.body;
 
     const user = await UserModel.findById(userId);
 
@@ -62,7 +62,7 @@ app.post('/create-user', authMiddleware, async (req, res) => {
         return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    const asistenteSocial = await AsModel.findOne({ zona });
+    const asistenteSocial = await AsModel.findOne({ comuna });
 
     if (!asistenteSocial) {
         return res.status(404).json({ message: 'No hay asistentes sociales disponibles en tu zona' });
@@ -70,6 +70,41 @@ app.post('/create-user', authMiddleware, async (req, res) => {
 
     res.json({ message: 'Estos son los asistentes sociales disponibles en tu zona:', asistenteSocial });
 });
+
+// Ruta para actualizar un usuario por su ID
+app.put('/update-user/:_id', authMiddleware, async (req, res) => {
+  try {
+    // Asegúrate de que solo los usuarios puedan actualizar su propio perfil
+    if (req.user.role !== 'user') {
+      return res.status(403).json({ message: 'No tienes permiso para realizar esta acción' });
+    }
+
+    const userId = req.user.userId; // Obtén el ID del usuario desde el token
+    const userData = req.body;
+
+    // Verifica que el usuario que desea actualizar sea el mismo que está autenticado
+    if (userId !== req.params._id) {
+      return res.status(403).json({ message: 'No tienes permiso para actualizar este usuario' });
+    }
+
+    // Elimina el atributo "zona" si existe en los datos del usuario
+    if ('zona' in userData) {
+      delete userData.zona;
+    }
+
+    // Implementa la lógica para actualizar el usuario utilizando el modelo y el ID
+    const usuarioActualizado = await UserModel.findByIdAndUpdate(userId, userData, { new: true });
+
+    if (!usuarioActualizado) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    res.json({ message: 'Usuario actualizado exitosamente', usuario: usuarioActualizado });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar el usuario', error: error.message });
+  }
+});
+
 
 
   module.exports = app;
