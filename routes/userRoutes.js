@@ -18,7 +18,7 @@ app.post('/create-user', authMiddleware, async (req, res) => {
     }
   });
 
-  app.post('/login-user', async (req, res) => {
+  app.post('/login', async (req, res) => {
     const { rut, password } = req.body;
   
     try {
@@ -26,7 +26,7 @@ app.post('/create-user', authMiddleware, async (req, res) => {
   
       if (user) {
         const token = jwt.sign({userId: user._id, role: 'user'}, config.secretKey);
-        res.json({token});
+        res.json({token, userType: 'user'});
       } else {
         res.status(401).json({ message: 'Credenciales incorrectas' });
       }

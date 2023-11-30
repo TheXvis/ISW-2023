@@ -16,14 +16,14 @@ app.post('/create-admin', async (req, res) => {
       }
   });
 
-  app.post('/login-admin', async (req, res) => {
-    const { rut, password } = req.body;
+  app.post('/login', async (req, res) => {
+    const { _id, password } = req.body;
 
     try {
-      const admin = await AdminModel.findOne({ rut, password });
+      const admin = await AdminModel.findOne({ _id, password });
       if (admin) {
         const token = jwt.sign({userId: admin._id, role: 'admin'}, config.secretKey);
-        res.json({token});
+        res.json({token, userType: 'admin'});
       } else {
         res.status(401).json({ message: 'Credenciales incorrectas' });
       }

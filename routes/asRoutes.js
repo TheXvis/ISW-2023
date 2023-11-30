@@ -23,15 +23,15 @@ app.post('/create-as', authMiddleware, async (req, res) => {
     }
   });
 
-app.post('/login-as', async (req, res) => {
-    const { rut, password } = req.body;
+app.post('/login', async (req, res) => {
+    const { _id, password } = req.body;
 
     try {
-      const asistenteSocial = await AsModel.findOne({ rut, password });
+      const asistenteSocial = await AsModel.findOne({ _id, password });
 
       if (asistenteSocial) {
         const token = jwt.sign({userId: asistenteSocial._id, role: 'asistente'}, config.secretKey);
-        res.json({token});
+        res.json({token, userType: 'as'});
       } else {
         res.status(401).json({ message: 'Credenciales incorrectas' });
       }

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const auth = require('./auth');
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,6 +21,8 @@ const AdminRoutes = require('./routes/adminRoutes');
 const UserRoutes = require('./routes/userRoutes');
 const AsRoutes = require('./routes/asRoutes');
 const FichaRoutes = require('./routes/fichaRoutes');
+
+app.use(cors());
 
 app.use('/ficha', FichaRoutes);
 app.use('/admin', AdminRoutes);
