@@ -92,6 +92,16 @@ app.post('/as-to-user', authMiddleware, async(req, res) =>{
   }
 });
 
+app.delete('/:id/desasignarAS', async (req, res) => {
+  try {
+    await UserModel.findByIdAndUpdate(req.params.id, { asAsignado: null });
+
+    res.json({ message: 'Asistente social desasignado con éxito' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al desasignar el asistente social', error: error.message });
+  }
+});
+
 app.put('/update-as/:_id', authMiddleware, async (req, res) => {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ message: 'No tienes permiso para realizar esta acción' });

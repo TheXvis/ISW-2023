@@ -18,6 +18,20 @@ app.post('/create-user', authMiddleware, async (req, res) => {
     }
   });
 
+  app.get('/verUsuario/:id', async (req, res) => {
+    try {
+      const user = await UserModel.findById(req.params.id);
+  
+      if (user) {
+        res.json(user);
+      } else {
+        res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: 'Error al obtener el usuario', error: error.message });
+    }
+  });
+
   app.post('/login', async (req, res) => {
     const { rut, password } = req.body;
   
