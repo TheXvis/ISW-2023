@@ -75,9 +75,7 @@ app.post('/create-user', authMiddleware, async (req, res) => {
     if (!user) {
         return res.status(404).json({ message: 'Usuario no encontrado' });
     }
-
-    const asistenteSocial = await AsModel.findOne({ comuna });
-
+    const asistenteSocial = await AsModel.find({ comuna });
     if (!asistenteSocial) {
         return res.status(404).json({ message: 'No hay asistentes sociales disponibles en tu zona' });
     }
