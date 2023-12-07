@@ -23,6 +23,22 @@ app.post('/create-as', authMiddleware, async (req, res) => {
     }
   });
 
+  app.get('/get-as/:_id', authMiddleware, async (req, res) => {
+    const _id = req.params._id;
+
+    try {
+        const asistenteSocial = await AsModel.findOne({ _id });
+
+        if (!asistenteSocial) {
+            return res.status(404).json({ message: 'Asistente social no encontrado' });
+        }
+
+        res.json({ asistenteSocial });
+    } catch (error) {
+        res.status(500).json({ message: 'Error al buscar el asistente social', error: error.message });
+    }
+});
+
 app.post('/login', async (req, res) => {
     const { _id, password } = req.body;
 
