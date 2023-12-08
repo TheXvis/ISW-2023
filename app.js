@@ -67,6 +67,15 @@ app.get('/fichas', async (req, res) => {
   }
 });
 
+app.get('/comunas', async (req, res) => {
+  try {
+      const result = await AsModel.find().distinct('comuna');
+      res.json(result);
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error en encontrar comunas' });
+  }
+});
 
 app.listen(80, () => {
     console.log('Servidor en funcionamiento en el puerto 80');
