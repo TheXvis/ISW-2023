@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const auth = require('./auth');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const config = require('./config');
 
 const app = express();
 app.use(bodyParser.json());
@@ -28,6 +30,29 @@ app.use('/ficha', FichaRoutes);
 app.use('/admin', AdminRoutes);
 app.use('/user', UserRoutes);
 app.use('/as', AsRoutes);
+
+
+app.post('/login', async (req, res) => {
+  const { _id, password } = req.body;
+
+
+  const user = await UserModel.findOne({ _id }) || await AdminModel.findOne({ _id }) || await AsModel.findOne({ _id });
+
+  if (!user) {
+    return res.status(401).json({ message: 'Credenciales incorrectas' });
+  }
+
+  const userType = user instanceof AdminModel 
+  ? 'admin' 
+  : user instanceof UserModel 
+    ? 'user' 
+    : user instanceof AsModel 
+      ? 'as'
+      : 'unknown';
+
+  const token = jwt.sign({ userId: user._id, role: userType }, config.secretKey);
+  res.json({ token, userType });
+});
 
 
 app.get('/user-users', async (req, res) => {
@@ -83,4 +108,4 @@ app.listen(80, () => {
 
 const visitationRequestRoutes = require('./routes/visitationRequestRoutes');
 
-app.use('/visitation-requests', visitationRequestRoutes);
+

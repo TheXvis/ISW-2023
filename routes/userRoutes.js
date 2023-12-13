@@ -32,23 +32,6 @@ app.post('/create-user', authMiddleware, async (req, res) => {
     }
   });
 
-  app.post('/login', async (req, res) => {
-    const { rut, password } = req.body;
-  
-    try {
-      const user = await UserModel.findOne({ rut, password });
-  
-      if (user) {
-        const token = jwt.sign({userId: user._id, role: 'user'}, config.secretKey);
-        res.json({token, userType: 'user'});
-      } else {
-        res.status(401).json({ message: 'Credenciales incorrectas' });
-      }
-    } catch (error) {
-      res.status(500).json({ message: 'Error en la autenticación', error: error.message });
-    }
-  });
-
   app.delete('/delete-user/:_id', async (req, res) => {
     const _id = req.params._id;
     try {

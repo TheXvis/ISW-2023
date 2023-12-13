@@ -16,21 +16,7 @@ app.post('/create-admin', async (req, res) => {
       }
   });
 
-  app.post('/login', async (req, res) => {
-    const { _id, password } = req.body;
 
-    try {
-      const admin = await AdminModel.findOne({ _id, password });
-      if (admin) {
-        const token = jwt.sign({userId: admin._id, role: 'admin'}, config.secretKey);
-        res.json({token, userType: 'admin'});
-      } else {
-        res.status(401).json({ message: 'Credenciales incorrectas' });
-      }
-    } catch (error) {
-      res.status(500).json({ message: 'Error en la autenticación', error: error.message });
-    }
-  });
 
   app.delete('/delete-admin/:_id', async (req, res) => {
     const _id = req.params._id;

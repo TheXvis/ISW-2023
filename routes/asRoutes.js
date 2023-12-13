@@ -39,22 +39,7 @@ app.post('/create-as', authMiddleware, async (req, res) => {
     }
 });
 
-app.post('/login', async (req, res) => {
-    const { _id, password } = req.body;
 
-    try {
-      const asistenteSocial = await AsModel.findOne({ _id, password });
-
-      if (asistenteSocial) {
-        const token = jwt.sign({userId: asistenteSocial._id, role: 'asistente'}, config.secretKey);
-        res.json({token, userType: 'as'});
-      } else {
-        res.status(401).json({ message: 'Credenciales incorrectas' });
-      }
-    } catch (error) {
-      res.status(500).json({ message: 'Error en la autenticación', error: error.message });
-    }
-});
 
 app.delete('/delete-as/:_id', authMiddleware, async (req, res) => {
   if(req.user.role !== 'admin'){
