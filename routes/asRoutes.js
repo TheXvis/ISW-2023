@@ -59,7 +59,7 @@ app.delete('/delete-as/:_id', authMiddleware, async (req, res) => {
 
 app.post('/as-to-user', authMiddleware, async(req, res) =>{
   try{
-    if(req.user.role !== 'asistente'){
+    if(req.user.role !== 'as'){
       return res.status(403).json({message: 'No tienes permisos para realizar esta acción'});
     }
     const asId = req.user.userId;
