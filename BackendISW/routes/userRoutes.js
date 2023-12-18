@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const config = require('../config');
 
-app.post('/create-user', authMiddleware, async (req, res) => {
+app.post('/create-user', async (req, res) => {
     const userData = req.body;
   
     try {

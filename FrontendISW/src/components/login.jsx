@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
+import CreateUser from './crearUsuario';
 
 function Login() {
 
@@ -65,6 +66,7 @@ function Login() {
                     <button type="button" className="btn btn-link" onClick={toggleShowPassword}>{showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}</button>
                     <input type="submit" style={{marginLeft:"20px", marginTop:"20px"}}className="btn btn-primary mt" value="Login" />
                   </form>
+                  <CreateUser/>
                 </div>
               </div>
             </div>
