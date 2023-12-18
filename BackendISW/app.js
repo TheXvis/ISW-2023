@@ -35,7 +35,6 @@ app.use('/user', UserRoutes);
 app.use('/as', AsRoutes);
 app.use('/documentos', archivos);
 
-
 app.post('/login', async (req, res) => {
   const { _id, password } = req.body;
 
