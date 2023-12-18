@@ -19,10 +19,12 @@ const FileManagement = () => {
   }, [uploadCount]); // Dependencia de uploadCount para actualizar la lista después de subir un archivo
 
   return (
-    <div>
+    <div style={{ height: '240px', overflowY: 'auto' }}>
       <ListaArchivos archivos={archivos} setArchivos={setArchivos} setUploadCount={setUploadCount} uploadCount={uploadCount} />
-      <br></br>
-      <FileUpload setUploadCount={setUploadCount} uploadCount={uploadCount} />
+      <br/>
+      <div style={{ marginBottom: '0px' }}>
+        <FileUpload setUploadCount={setUploadCount} uploadCount={uploadCount} />
+      </div>
     </div>
   );
 };

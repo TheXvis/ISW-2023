@@ -13,7 +13,7 @@ const FileUpload = ({ setUploadCount, uploadCount }) => {
     formData.append('file', file);
     axios.post('http://localhost:80/documentos/upload', formData)
       .then(response => {
-        setUploadCount(uploadCount + 1);  // Incrementa uploadCount
+        setUploadCount(uploadCount + 1);
       })
       .catch(error => {
         console.error(error);

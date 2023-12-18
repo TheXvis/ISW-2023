@@ -65,29 +65,37 @@ const ListaArchivos = ({ uploadCount }) => {
   console.log(archivos);
   return (
     <div className="tabla-centrada">
-    <table className="tabla-justificada"> 
-    <thead className="table-header">
-        <tr>
-          <th>Nombre del archivo</th>
-          <th>Fecha de subida</th>
-          <th>Tamaño</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
+      <table className="tabla-justificada">
+        <thead className="table-header">
+          <tr>
+            <th className="table-header-cell">Nombre del archivo</th>
+            <th className="table-header-cell">Fecha de subida</th>
+            <th className="table-header-cell">Tamaño</th>
+            <th className="table-header-cell">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
           {archivos.map(archivo => (
             <tr key={archivo._id}>
-              <td>{archivo.nombreOriginal}</td>
-              <td>{new Date(archivo.fechaSubida).toLocaleString('es-CL', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
-              <td>{archivo.tamaño}</td>
-              <td>
+              <td className="table-data-cell">{archivo.nombreOriginal}</td>
+              <td className="table-data-cell">
+                {new Date(archivo.fechaSubida).toLocaleString('es-CL', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </td>
+              <td className="table-data-cell">{archivo.tamaño}</td>
+              <td className="table-data-cell">
                 <button onClick={() => descargarArchivo(archivo._id)}>Ver/Descargar</button>
                 <button onClick={() => eliminarArchivo(archivo._id)}>Eliminar</button>
               </td>
             </tr>
           ))}
         </tbody>
-        </table>
+      </table>
       {errorMessage && <ErrorMessage message={errorMessage} />}
     </div>
   );
