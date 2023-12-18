@@ -13,6 +13,17 @@
   }
 }
 
+.btn-file {
+  padding: 8px 16px; /* Ajusta el tamaño del botón */
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px; /* Ajusta el tamaño de la fuente */
+  /* Agrega cualquier otro estilo deseado */
+}
+
 /* Estilos para la página de usuario en general */
 .user-page {
   max-width: 1200px;
