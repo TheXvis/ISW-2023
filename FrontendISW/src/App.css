@@ -55,6 +55,16 @@
   margin-bottom: 0px;
 }
 
+.custom-btn {
+  background-color: #2e7d32;
+  border-color: black;
+}
+
+.btn-success {
+  background-color: #2e7d32;
+  border-color: black;
+}
+
 /* Estilos para encabezados de tabla */
 .table-header-cell {
   font-size: 16px; /* Tamaño de fuente para los encabezados */

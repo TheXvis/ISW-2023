@@ -8,7 +8,10 @@ const ArchivoSchema = new mongoose.Schema({
     default: Date.now
   },
   tamaño: Number,
-  rutUser: String,
+  rutUsuario: {
+    type: String,
+    ref: 'User' // Nombre del modelo de usuario
+  },
   ruta: String
 });
 

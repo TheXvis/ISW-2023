@@ -6,18 +6,34 @@ import Swal from 'sweetalert2';
 const ListaArchivos = ({ uploadCount }) => {
   const [archivos, setArchivos] = useState([]);
   const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
+// Crear una instancia de axios
+const api = axios.create({
+  baseURL: 'http://localhost:80'
+});
 
-  useEffect(() => {
-    axios.get('http://localhost:80/documentos')
-      .then(response => {
-        console.log(response.data);
-        setArchivos(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-        setErrorMessage('Error al obtener la lista de archivos');
-      });
-  }, [uploadCount]);
+// Añadir un interceptor de solicitud para incluir el encabezado Authorization
+api.interceptors.request.use((config) => {
+  const userId = localStorage.getItem('userId');
+  if (userId) {
+    config.headers.Authorization = `Bearer ${userId}`;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
+// Luego, utiliza esta instancia de axios en lugar de axios directamente
+useEffect(() => {
+  api.get('/documentos')
+    .then(response => {
+      console.log(response.data);
+      setArchivos(response.data.archivos);
+    })
+    .catch(error => {
+      console.error(error);
+      setErrorMessage('Error al obtener la lista de archivos');
+    });
+}, [uploadCount]);
 
   const eliminarArchivo = async (archivoId) => {
     try {
@@ -42,6 +58,15 @@ const ListaArchivos = ({ uploadCount }) => {
     }
   };
 
+  function formatFileSize(size) {
+    if (size < 1024) {
+      return `${size} bytes`;
+    } else if (size < 1048576) {
+      return `${(size / 1024).toFixed(2)} KB`;
+    } else {
+      return `${(size / 1048576).toFixed(2)} MB`;
+    }
+  }
 
   console.log(archivos);
   return (
@@ -62,18 +87,21 @@ const ListaArchivos = ({ uploadCount }) => {
               <td className="table-data-cell">
                 {new Date(archivo.fechaSubida).toLocaleString('es-CL', {
                   year: 'numeric',
-                  month: 'long',
+                  month: 'short',
                   day: 'numeric',
                   hour: '2-digit',
                   minute: '2-digit'
                 })}
               </td>
-              <td className="table-data-cell">{archivo.tamaño}</td>
+              <td className="table-data-cell">{formatFileSize(archivo.tamaño)}</td>
               <td className="table-data-cell">
-              <button onClick={() => window.open(`http://localhost:80/documentos/descargar/${archivo._id}`, '_blank')} type="button">
+              <button onClick={() => window.open(`http://localhost:80/documentos/descargar/${archivo._id}`, '_blank')} type="button" class="btn btn-success custom-btn btn-sm" style={{width: '70px', textAlign:'center', padding:'4px 0'}}>
               Descargar
               </button>
-              <button onClick={() => eliminarArchivo(archivo._id)}>Eliminar</button>
+              <button onClick={() => window.open(`http://localhost:80/documentos/ver/${archivo._id}`, '_blank')} type="button" class="btn btn-secondary custom-btn btn-sm">
+              Ver
+              </button>
+                <button onClick={() => eliminarArchivo(archivo._id)} type= "button" class="btn btn-danger btn-sm">Borrar</button>
               </td>
             </tr>
           ))}

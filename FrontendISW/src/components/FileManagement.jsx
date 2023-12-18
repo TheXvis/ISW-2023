@@ -20,11 +20,11 @@ const FileManagement = () => {
 
   return (
     <div style={{ height: '240px', overflowY: 'auto' }}>
-      <ListaArchivos archivos={archivos} setArchivos={setArchivos} setUploadCount={setUploadCount} uploadCount={uploadCount} />
-      <br/>
       <div style={{ marginBottom: '0px' }}>
         <FileUpload setUploadCount={setUploadCount} uploadCount={uploadCount} />
       </div>
+      <br/>
+      <ListaArchivos archivos={archivos} setArchivos={setArchivos} setUploadCount={setUploadCount} uploadCount={uploadCount} />
     </div>
   );
 };
