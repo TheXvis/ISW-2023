@@ -42,22 +42,6 @@ code {
   margin-top: -100px;
 }
 
-.tabla-centrada {
-  display: flex;
-  justify-content: center;
-}
-
-.tabla-justificada {
-  width: 80%;  /* Ajusta esto según tus necesidades */
-  margin: auto;
-  text-align: center;
-}
-
-.table-header {
-  background-color: #1565c0;
-  color: #fff;
-}
-
 .back-to-home-button {
   position: absolute;
   top: 10px;

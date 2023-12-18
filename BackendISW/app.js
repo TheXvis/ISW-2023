@@ -5,6 +5,7 @@ const auth = require('./auth');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const config = require('./config');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,14 +18,12 @@ mongoose.connect('mongodb+srv://CharlyISW:proyectoisw@iswbdd.zytwiz1.mongodb.net
 const UserModel = require('./models/user');
 const AsModel = require('./models/as');
 const AdminModel = require('./models/admin');
-const ArchivoModel = require('./models/Archivo');
 const FichaSocialModel = require('./models/fichaSocial');
 
 const AdminRoutes = require('./routes/adminRoutes');
 const UserRoutes = require('./routes/userRoutes');
 const AsRoutes = require('./routes/asRoutes');
 const FichaRoutes = require('./routes/fichaRoutes');
-const archivos = require('./routes/archivos');
 
 app.use(cors());
 
@@ -32,28 +31,42 @@ app.use('/ficha', FichaRoutes);
 app.use('/admin', AdminRoutes);
 app.use('/user', UserRoutes);
 app.use('/as', AsRoutes);
-app.use('/documentos', archivos);
 
 
 app.post('/login', async (req, res) => {
   const { _id, password } = req.body;
 
+  // Realiza las consultas en paralelo
+  const [user, admin, as] = await Promise.all([
+    UserModel.findOne({ _id }),
+    AdminModel.findOne({ _id }),
+    AsModel.findOne({ _id }),
+  ]);
 
-  const user = await UserModel.findOne({ _id }) || await AdminModel.findOne({ _id }) || await AsModel.findOne({ _id });
-
-  if (!user) {
+  // Determina el usuario y el tipo de usuario
+  let userType;
+  let foundUser;
+  if (user) {
+    userType = 'user';
+    foundUser = user;
+  } else if (admin) {
+    userType = 'admin';
+    foundUser = admin;
+  } else if (as) {
+    userType = 'as';
+    foundUser = as;
+  } else {
     return res.status(401).json({ message: 'Credenciales incorrectas' });
   }
 
-  const userType = user instanceof AdminModel 
-  ? 'admin' 
-  : user instanceof UserModel 
-    ? 'user' 
-    : user instanceof AsModel 
-      ? 'as'
-      : 'unknown';
+  // Compara la contraseña
+  const isPasswordMatch = await foundUser.comparePassword(password);
+  if (!isPasswordMatch) {
+    return res.status(401).json({ message: 'Credenciales incorrectas' });
+  }
 
-  const token = jwt.sign({ userId: user._id, role: userType }, config.secretKey);
+  // Crea el token y envía la respuesta
+  const token = jwt.sign({ userId: foundUser._id, role: userType }, config.secretKey);
   res.json({ token, userType });
 });
 
@@ -110,3 +123,5 @@ app.listen(80, () => {
 });
 
 const visitationRequestRoutes = require('./routes/visitationRequestRoutes');
+
+

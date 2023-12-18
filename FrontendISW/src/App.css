@@ -12,21 +12,6 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-.table-header {
-  background-color: #1565c0;
-  color: #fff;
-}
-
-.tabla-centrada {
-  display: flex;
-  justify-content: center;
-}
-
-.tabla-justificada {
-  width: 80%;  /* Ajusta esto según tus necesidades */
-  margin: auto;
-  text-align: center;
-}
 
 .App-header {
   background-color: #282c34;

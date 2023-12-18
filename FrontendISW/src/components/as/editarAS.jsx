@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function EditAsistenteSocial() {
     const [id, setId] = useState('');
@@ -29,7 +30,11 @@ function EditAsistenteSocial() {
             setComuna(response.data.asistenteSocial.comuna);
             setRegion(response.data.asistenteSocial.region);
         } catch (error) {
-            alert(error.response.data.message);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: error.response.data.message
+            });
         }
     };
 

@@ -11,7 +11,7 @@ function BackToHomeButton() {
     };
 
     return (
-        <button className="back-to-home-button" onClick={handleClick}>Cerrar Sesión</button>
+        <button className="back-to-home-button" onClick={handleClick}>Volver a inicio</button>
     );
 }
 

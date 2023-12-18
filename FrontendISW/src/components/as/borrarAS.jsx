@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 function DeleteAsistenteSocial() {
     const [id, setId] = useState('');
@@ -13,9 +14,16 @@ function DeleteAsistenteSocial() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            alert(response.data.message);
+            Swal.fire({
+                icon: 'success',
+                title: response.data.message
+            });
         } catch (error) {
-            alert(error.response.data.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.response.data.message
+            });
         }
     };
 

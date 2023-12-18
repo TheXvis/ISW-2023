@@ -17,7 +17,7 @@ function AsPage() {
     );
 }
 
-export default withAuth(AsPage);
+export default withAuth(AsPage, 'as');
 
 //123456789
 //contrasena

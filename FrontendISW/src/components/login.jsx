@@ -53,47 +53,18 @@ function Login() {
       };
       
       return (
-        <div style={{ backgroundColor: '#333333', color: '#fff', minHeight: '100vh', fontFamily: 'Arial, sans-serif' }}>
-          <div style={{ backgroundColor: '#ff6f00', padding: '10px', textAlign: 'center' }}>
-            <h1>Asistencia Social UBB</h1>
-          </div>
-          <div className="container" style={{ marginTop: '20px', padding: '20px' }}>
-            <div className="row justify-content-center">
-              <div className="col-md-6">
-                <div className="card" style={{ backgroundColor: '#eee' }}>
-                  <div className="card-body">
-                    <form className="form-group" onSubmit={handleSubmit}>
-                      <input
-                        id="rut"
-                        className="form-control"
-                        value={_id}
-                        onChange={(e) => set_id(e.target.value)}
-                        placeholder="Ingrese su rut"
-                      />
-                      <input
-                        id="password"
-                        className="form-control"
-                        type={showPassword ? 'text' : 'password'}
-                        value={password}
-                        onChange={handlePasswordChange}
-                        placeholder="Ingrese su contraseña"
-                        style={{ marginTop: '10px' }}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-link"
-                        onClick={toggleShowPassword}
-                      >
-                        {showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                      </button>
-                      <input
-                        type="submit"
-                        style={{ marginLeft: '20px', marginTop: '20px' }}
-                        className="btn btn-primary mt"
-                        value="Login"
-                      />
-                    </form>
-                  </div>
+        <div className="container" style={{marginTop:"20px"}}>
+          <div className="row justify-content-center">
+            <div className="col-md-3">
+              <div className="card" style={{ backgroundColor: '#eee' }}>
+
+                <div className="card-body">
+                  <form className="form-group" onSubmit={handleSubmit}>
+                    <input id="rut" className="form-control" value={_id} onChange={e => set_id(e.target.value)} placeholder="Ingrese su rut" />
+                    <input id="password" className="form-control" type={showPassword ? 'text' : 'password'} value={password} onChange={handlePasswordChange} placeholder="Ingrese su contraseña" style={{marginTop:"10px"}} />
+                    <button type="button" className="btn btn-link" onClick={toggleShowPassword}>{showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}</button>
+                    <input type="submit" style={{marginLeft:"20px", marginTop:"20px"}}className="btn btn-primary mt" value="Login" />
+                  </form>
                 </div>
               </div>
             </div>
