@@ -13,6 +13,53 @@
   }
 }
 
+/* Estilos para la página de usuario en general */
+.user-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Estilos para la sección de inicio */
+.home-section {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Estilos para la sección de asistencia */
+.assistance-section {
+  background-color: #333333;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #ff6f00;
+}
+
+/* Estilos para la sección de administración de archivos */
+.file-management-section {
+  background-color: #333333;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #ff6f00;
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+/* Estilos para encabezados de tabla */
+.table-header-cell {
+  font-size: 16px; /* Tamaño de fuente para los encabezados */
+}
+
+/* Estilos para datos de tabla */
+.table-data-cell {
+  font-size: 14px; /* Tamaño de fuente para los datos de la tabla */
+}
+
+/* Estilos para la tabla */
+.tabla-justificada {
+  width: 100%; /* Ancho de la tabla */
+  border-collapse: collapse; /* Para fusionar los bordes de las celdas */
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
