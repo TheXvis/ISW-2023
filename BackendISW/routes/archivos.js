@@ -7,7 +7,7 @@ const fs = require('fs');
 // Configuración de multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/') // Directorio donde se almacenarán los archivos
+    cb(null, 'uploads') // Directorio donde se almacenarán los archivos
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname)
@@ -64,6 +64,32 @@ router.delete('/:archivoId', async (req, res, next) => {
 });
 
 // Ruta para descargar un archivo por su ID
+router.get('/descargar/:id', async (req, res) => {
+  try {
+    const archivo = await Archivo.findById(req.params.id);
+
+    if (!archivo) {
+      return res.status(404).json({ message: 'Archivo no encontrado' });
+    }
+
+    const filePath = archivo.ruta;
+
+    // Verificar si el archivo existe en la ruta proporcionada de manera sincrónica
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ message: 'Archivo no encontrado en el servidor' });
+    }
+
+    // Establecer las cabeceras para la descarga
+    res.setHeader('Content-Disposition', `attachment; filename=${archivo.nombreOriginal}`);
+    res.setHeader('Content-Type', archivo.formato); // Establece el tipo MIME del archivo
+
+    // Enviar el archivo al frontend
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al descargar el archivo', error: error.message });
+  }
+});
 router.get('/descargar/:id', async (req, res) => {
   try {
     const archivo = await Archivo.findById(req.params.id);

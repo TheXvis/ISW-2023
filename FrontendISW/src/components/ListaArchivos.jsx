@@ -42,25 +42,6 @@ const ListaArchivos = ({ uploadCount }) => {
     }
   };
 
-  const descargarArchivo = async (archivoId) => {
-    try {
-      const response = await axios.get(`http://localhost:80/descargar/${archivoId}`, {
-        responseType: 'blob', // Especifica el tipo de respuesta como un objeto blob
-      });
-  
-      // Crear un enlace para descargar el archivo
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'archivo_descargado'); // Nombre predeterminado del archivo descargado
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
-    } catch (error) {
-      console.error(error);
-      // Manejar errores, mostrar mensajes al usuario, etc.
-    }
-  };
 
   console.log(archivos);
   return (
@@ -68,7 +49,7 @@ const ListaArchivos = ({ uploadCount }) => {
       <table className="tabla-justificada">
         <thead className="table-header">
           <tr>
-            <th className="table-header-cell">Nombre del archivo</th>
+            <th className="table-header-cell">Nombre</th>
             <th className="table-header-cell">Fecha de subida</th>
             <th className="table-header-cell">Tamaño</th>
             <th className="table-header-cell">Acciones</th>
@@ -89,8 +70,10 @@ const ListaArchivos = ({ uploadCount }) => {
               </td>
               <td className="table-data-cell">{archivo.tamaño}</td>
               <td className="table-data-cell">
-                <button onClick={() => descargarArchivo(archivo._id)}>Ver/Descargar</button>
-                <button onClick={() => eliminarArchivo(archivo._id)}>Eliminar</button>
+              <button onClick={() => window.open(`http://localhost:80/documentos/descargar/${archivo._id}`, '_blank')} type="button">
+              Descargar
+              </button>
+              <button onClick={() => eliminarArchivo(archivo._id)}>Eliminar</button>
               </td>
             </tr>
           ))}
