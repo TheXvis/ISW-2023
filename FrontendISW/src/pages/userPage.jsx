@@ -2,6 +2,7 @@ import BackToHomeButton from "../components/home";
 import SolicitarAsistencia from "../components/solAsistencia";
 import withAuth from '../components/withAuth';
 import FileManagement from "../components/FileManagement";
+import React from 'react';
 
 // 100200300
 //  
