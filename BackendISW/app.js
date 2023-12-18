@@ -19,11 +19,13 @@ const UserModel = require('./models/user');
 const AsModel = require('./models/as');
 const AdminModel = require('./models/admin');
 const FichaSocialModel = require('./models/fichaSocial');
+const ArchivoModel = require('./models/Archivo');
 
 const AdminRoutes = require('./routes/adminRoutes');
 const UserRoutes = require('./routes/userRoutes');
 const AsRoutes = require('./routes/asRoutes');
 const FichaRoutes = require('./routes/fichaRoutes');
+const archivos = require('./routes/archivos');
 
 app.use(cors());
 
@@ -31,7 +33,7 @@ app.use('/ficha', FichaRoutes);
 app.use('/admin', AdminRoutes);
 app.use('/user', UserRoutes);
 app.use('/as', AsRoutes);
-
+app.use('/documentos', archivos);
 
 app.post('/login', async (req, res) => {
   const { _id, password } = req.body;
