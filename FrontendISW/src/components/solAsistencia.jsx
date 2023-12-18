@@ -51,38 +51,40 @@ function SolicitarAsistencia() {
     }
 
     return (
-        <div>
-        <p>Selecciona tu comuna:</p>
-        <form onSubmit={handleSubmit}>
-            <Dropdown onSelect={(value) => setComuna(value)}>
+        <div style={{ textAlign: 'center' }}>
+         <p>Selecciona tu comuna:</p>
+         <form onSubmit={handleSubmit} className="row justify-content-center">
+         <div className="col-md-6">
+             <Dropdown onSelect={(value) => setComuna(value)}>
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    {comuna || "Seleccione una comuna"}
-                </Dropdown.Toggle>
+                  {comuna || 'Seleccione una comuna'}
+             </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                    {comunas.map((comuna, index) => (
-                        <Dropdown.Item key={index} eventKey={comuna}>
-                            {comuna}
-                        </Dropdown.Item>
-                    ))}
+             <Dropdown.Menu>
+               {comunas.map((comuna, index) => (
+                    <Dropdown.Item key={index} eventKey={comuna}>
+                     {comuna}
+                 </Dropdown.Item>
+                 ))}
                 </Dropdown.Menu>
-            </Dropdown>
+             </Dropdown>
+         </div>
                 <div className="input-group mb-3 d-flex justify-content-center align-items-center">
                 <button style={{marginTop:"10px"}}className="btn btn-primary" type="submit">Buscar asistentes</button>
                 </div>
             </form>
             {asistentesSociales.length > 0 && (
                 <div>
-                    <h2>Asistentes sociales disponibles:</h2>
+                    <h3>Asistentes sociales disponibles:</h3>
                     <table className="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Correo</th>
-                                <th>Teléfono</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
+                    <thead className="table-header">
+                        <tr>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Teléfono</th>
+                        <th>Acciones</th>
+                        </tr>
+                    </thead>
                         <tbody>
                             {asistentesSociales.map((asistente, index) => {
                                 console.log(asistente);

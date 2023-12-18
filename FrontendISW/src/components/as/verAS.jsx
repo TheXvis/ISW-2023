@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 
 function VerAsistenteSocial() {
     const [id, setId] = useState('');
@@ -16,11 +15,7 @@ function VerAsistenteSocial() {
             });
             setAsistenteSocial(response.data.asistenteSocial);
         } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: error.response.data.message
-            });
+            alert(error.response.data.message);
         }
     };
 

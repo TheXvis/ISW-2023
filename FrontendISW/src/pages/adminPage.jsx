@@ -42,4 +42,4 @@ return (
 );
 }
   
-export default withAuth(AdminPage, 'admin');
+export default withAuth(AdminPage);

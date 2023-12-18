@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 
 function CreateAsistenteSocial() {
   const [id, setId] = useState('');
@@ -33,16 +32,9 @@ function CreateAsistenteSocial() {
           'Authorization': `Bearer ${token}`
         }
       });
-      Swal.fire({
-        icon: 'success',
-        title: response.data.message
-      });
+      alert(response.data.message);
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.response.data.message
-      });
+      alert(error.response.data.message);
     }
   };
   
