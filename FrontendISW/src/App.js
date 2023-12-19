@@ -12,7 +12,7 @@ function App() {
     <Router>
       <div className="App">
         <header className="App-header">
-          <h1 className='titulo'>Asistencia Social UBB</h1>
+          <h1 className='titulo' style={{marginTop:"50px"}}>Asistencia Social UBB</h1>
           <Routes>
             <Route path="/" element={<Login/>} />
             <Route path="/admin" element={<AdminPage/>} />
